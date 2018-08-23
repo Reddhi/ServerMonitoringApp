@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Server Monitoring App</string>
+    <string name="show_history">Show History</string>
 </resources>

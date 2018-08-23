@@ -2,17 +2,17 @@ package com.example.itgadmin.servermonitoringapp;
 
 public class TemperatureData {
 
-    private String temperature;
+    private double temperature;
     private String datetime;
 
     public TemperatureData() {
     }
 
-    public String getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(String temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 

@@ -1,5 +1,6 @@
 package com.example.itgadmin.servermonitoringapp;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<TemperatureData> temperatureHistory;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private LinearLayoutManager mLayoutManager;
 
 
     @Override
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setStackFromEnd(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference myRef = database.getReference("data");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot historySnapshot) {
+            public void onDataChange(@NonNull DataSnapshot historySnapshot) {
                 temperatureHistory = new ArrayList<>();
                 for (DataSnapshot dataSnapshot: historySnapshot.getChildren()) {
                     TemperatureData data = dataSnapshot.getValue(TemperatureData.class);
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
                 // Failed to read value
                 Log.w(TAG, "Failed to read value.", error.toException());
             }

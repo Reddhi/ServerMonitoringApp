@@ -42,9 +42,11 @@ public class MainActivity extends AppCompatActivity {
                     TemperatureData temp = snapshot.getValue(TemperatureData.class);
                     DecimalFormat df = new DecimalFormat("00");
                     df.setRoundingMode(RoundingMode.HALF_UP);
-                    String temperatureText = df.format(temp.getTemperature())+"\u00b0C";
-                    tempView.setText(temperatureText);
-                    timeView.setText(temp.getDatetime());
+                    if(temp!=null) {
+                        String temperatureText = df.format(temp.getTemperature()) + "\u00b0C";
+                        tempView.setText(temperatureText);
+                        timeView.setText(temp.getDatetime());
+                    }
                 }
             }
             @Override

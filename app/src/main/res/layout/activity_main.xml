@@ -51,7 +51,7 @@
             android:text="@string/show_history"
             android:textColor="@color/colorGrayLight"
             android:textSize="20sp"/>
-        
+
     </LinearLayout>
 
 </LinearLayout>

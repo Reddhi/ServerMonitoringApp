@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     Context mContext;
     private TextView tempView, timeView;
+    private FirebaseDatabase mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         tempView = findViewById(R.id.temperature_view);
         timeView = findViewById(R.id.timestamp_view);
         Button historyButton = findViewById(R.id.show_history_button);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("data");
+        mDatabase = FirebaseDatabaseUtility.getDatabase();
+        DatabaseReference myRef = mDatabase.getReference("data");
         Query lastQuery = myRef.orderByKey().limitToLast(1);
         lastQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -68,20 +71,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getFCMToken(){
-        String fcmToken = FirebaseInstanceId.getInstance().getToken();
-        updateDatabase(fcmToken);
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String fcmToken = instanceIdResult.getToken();
+                updateDatabase(fcmToken);
+            }
+        });
+
     }
 
     private void updateDatabase(final String token){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference dbRef = database.getReference("users/");
+        final DatabaseReference dbRef = mDatabase.getReference("users/");
         ValueEventListener dbListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<String> fcmTokens = new ArrayList<>();
                 for(DataSnapshot snapshot:dataSnapshot.getChildren()){
                     String str = snapshot.getValue(String.class);
-                    if(str.equals(token)){
+                    if(str!=null && str.equals(token)){
                         return;
                     }
                     fcmTokens.add(str);

@@ -1,14 +1,10 @@
 package com.example.itgadmin.servermonitoringapp;
 
-import android.content.Context;
-import android.content.Intent;
-import android.provider.Settings;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.ArrayList;
 
 public class FCMService extends FirebaseMessagingService {
 

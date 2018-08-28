@@ -15,9 +15,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,5 +64,36 @@ public class MainActivity extends AppCompatActivity {
                 mContext.startActivity(intent);
             }
         });
+        getFCMToken();
+    }
+
+    private void getFCMToken(){
+        String fcmToken = FirebaseInstanceId.getInstance().getToken();
+        updateDatabase(fcmToken);
+    }
+
+    private void updateDatabase(final String token){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference dbRef = database.getReference("users/");
+        ValueEventListener dbListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<String> fcmTokens = new ArrayList<>();
+                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+                    String str = snapshot.getValue(String.class);
+                    if(str.equals(token)){
+                        return;
+                    }
+                    fcmTokens.add(str);
+                }
+                fcmTokens.add(token);
+                dbRef.setValue(fcmTokens);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                //Handle possible errors.
+            }
+        };
+        dbRef.addListenerForSingleValueEvent(dbListener);
     }
 }

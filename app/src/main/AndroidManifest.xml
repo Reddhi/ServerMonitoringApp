@@ -16,7 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HistoryActivity"></activity>
+        <activity android:name=".HistoryActivity" />
+
+        <service
+            android:name=".FCMService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

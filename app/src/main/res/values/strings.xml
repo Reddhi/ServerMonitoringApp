@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Server Monitoring App</string>
     <string name="show_history">Show History</string>
+    <string name="settings">Settings</string>
+    <string name="settings_temperature">Change Threshold Temperature</string>
+    <string name="settings_file_path">Change File Path</string>
+    <string name="settings_notification">Notification Settings</string>
+    <string name="settings_database">Clear Data Records</string>
 </resources>

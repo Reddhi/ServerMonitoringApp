@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity"
     android:orientation="vertical"
-    >
+    android:id="@+id/settings_parent_layout">
 
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"

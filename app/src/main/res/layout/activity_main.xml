@@ -57,7 +57,7 @@
             android:paddingEnd="40dp"
             android:paddingStart="40dp"
             android:text="@string/show_history"
-            android:textColor="@color/colorGrayLight"
+            android:textColor="@color/colorWhite"
             android:textSize="20sp"/>
 
     </LinearLayout>
